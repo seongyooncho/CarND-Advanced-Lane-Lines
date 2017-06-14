@@ -63,7 +63,20 @@ I have applied `cv2.undistort()` function to test images and here are result of 
 
 The code for this step is contained in the fourth & fifth code cell of the IPython notebook located in "./examples/lane.ipynb".  
 
-I used a combination of color and gradient thresholds to generate a binary image (thresholding steps at fourth code cell).  Here's an example of my output for this step.
+My approach is,
+- First, find yellow area, for yellow lane, and white area, for white lane.
+- Second, find edges using sobel filter for S and L channels,
+- Finally, check if the edges are in either yellow or white area.
+
+Here are threshods I used
+- To find yellow area
+  - H threshold: 15 - 25
+- To find white area
+  - L threshold: 180 - 255
+  - S threshold: 0 - 120
+- Sobel threshold: 12 - 100
+
+In the images below, red is for yellow area, green is for white area, and blue is for detected edges.
 
 ![alt text][image3]
 
@@ -103,11 +116,16 @@ I verified that my perspective transform was working as expected by drawing the 
 
 The code for this step is contained in the eighths & ninth code cell of the IPython notebook located in "./examples/lane.ipynb".  
 
+I have identified lane line pixels using histogram window.
+
 ![alt text][image5]
 
 #### 5. Describe how (and identify where in your code) you calculated the radius of curvature of the lane and the position of the vehicle with respect to center.
 
 The code for this step is contained in the tenth code cell of the IPython notebook located in "./examples/lane.ipynb".  
+
+I have used cv2.polyfit function to find radius of curvature.
+I have identified the center by averaging the bottom pixels of lane lines found.
 
 #### 6. Provide an example image of your result plotted back down onto the road such that the lane area is identified clearly.
 
@@ -129,4 +147,4 @@ Here's a [link to my video result](./examples/project_video_output.mp4)
 
 #### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
-The result seems quite stable to me. But you can see it's failing sometime in video and test_image #1. I believe it can be fixed if I apply sanity checks and smoothing filters.
+The radius is not quite accurate, and seems unstable. I believe it can be improved if I apply sanity checks and smoothing filters.
